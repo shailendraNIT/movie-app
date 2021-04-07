@@ -11,3 +11,37 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.nav{
+  
+  margin: 40px;
+  height: 40px;
+  background-color: black;
+}
+
+.search-container{
+  margin-left: 400px;
+  
+}
+
+.tabs{
+  display: flex;
+  flex-direction: row;
+  margin:40px;
+  
+}
+
+.tab{
+  background-color: blanchedalmond;
+  padding: 4px;
+  
+}
+
+.movie-card{
+  margin:40px;
+  display: flex;
+  flex-direction: row;
+}
+
+
