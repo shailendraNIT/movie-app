@@ -3,6 +3,7 @@ import { data } from '../data';
 import Navbar from './Navbar';
 import MovieCard from './MovieCard'
 import { addMovies, setShowFavourite } from '../actions';
+import {connect} from '../index'
 
 class  App extends React.Component {
 
@@ -24,27 +25,26 @@ class  App extends React.Component {
   }
 
   isMovieFavourite=(movie)=>{
-    const {movies}=this.props.store.getState();
+    const {movies}=this.props;
     const {favourites}=movies;
     const index=favourites.indexOf(movie);
     return index!==-1;
   }
 
-  onchangetab(val){
-    this.props.store.dispatch(setShowFavourite(val))
+  onchangetab=(val)=>{
+    this.props.dispatch(setShowFavourite(val))
   }
 
   render()
   {
-    const {movies}=this.props.store.getState();
+    const {movies,search}=this.props;
     const {list,favourites,showFavourites}=movies;
 
     const displayMovies=showFavourites?favourites:list;
-    console.log('render');
-    console.log('state after rendering: ',this.props.store.getState())
+    
     return (
       <div className="App">
-        <Navbar />
+        <Navbar search={search}/>
 
         <div className="main">
           <div className="tabs">
@@ -56,7 +56,7 @@ class  App extends React.Component {
             {
             displayMovies.map((movie,index)=>(<MovieCard movie={movie} 
             key={`movies-${index}`}
-            dispatch={this.props.store.dispatch}
+            dispatch={this.props.dispatch}
             isMovieFavourite={this.isMovieFavourite(movie)}
             />
             ))}
@@ -68,4 +68,23 @@ class  App extends React.Component {
   
 }
 
-export default App;
+// class AppWrapper extends React.Component{
+//   render(){
+//     return(
+//       <StoreContext.Consumer >
+//           {(store)=>{
+//             <App store={store}/>
+//           }}
+//       </StoreContext.Consumer>
+//     );
+//   }
+// }
+function mapStateToProps(state){
+  return{
+    movies:state.movies,
+    search:state.search
+  }
+}
+
+const connectedAppComponent=connect(mapStateToProps)(App);
+export default connectedAppComponent;
